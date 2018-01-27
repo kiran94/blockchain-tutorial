@@ -1,10 +1,14 @@
 '''
     This module provides a Simple BlockChain implementation for learning.
+
+    Block Structure: https://gist.github.com/dvf/79633bf97e2a831f066f699d41c2b9d5#file-blockchain-py
 '''
 
 class Blockchain(object):
     '''
         Blockchain implementation
+        Responsible for managing the chain and will store transactions and have some helper
+        functions for interacting with the chain.
     '''
 
     def __init__(self):
