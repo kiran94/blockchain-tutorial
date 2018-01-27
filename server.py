@@ -7,6 +7,7 @@ from uuid import uuid4
 from flask import Flask, jsonify, request
 
 from blockchain import Blockchain
+from proof import Proof
 
 # Initialise a Node
 app = Flask(__name__)
@@ -14,17 +15,48 @@ app = Flask(__name__)
 # Generate a globally unique address
 node_id = str(uuid4()).replace('-', '')
 
-#Initialise the blockchain
+# Initialise the blockchain
 blockchain = Blockchain()
+
+# Initialise the proofing algorithm
+proof = Proof()
 
 @app.route('/mine', methods=['GET'])
 def mine():
     '''
         Mine a new block.
     '''
-    return "mine"
 
-@app.route('/transactions/new', methods=['GET'])
+    # Get the previous block and proof and find the new proof.
+    previous_block = blockchain.last_block
+    previous_proof = previous_block["proof"]
+    new_proof = proof.proof_of_work(previous_proof)
+
+    # Because the user is mining a block, we want to reward them with a block,
+    # so we create a transaction on the blockchain which will be added to the blockchain
+    # in the new_block method below.
+    blockchain.new_transaction(
+        sender = "0",
+        recipient = node_id,
+        amount = 1
+    )
+
+    # Forge the new block by adding it to the blockchain
+    previous_hash = blockchain.hash(previous_block)
+    new_block = blockchain.new_block(new_proof, previous_hash)
+
+    # Send the response back with the block details.
+    response = {
+        'message': "New Block Forged",
+        'index': new_block['index'],
+        'transactions': new_block['transactions'],
+        'proof': new_block['proof'],
+        'previous_hash': new_block['previous_hash'],
+    }
+
+    return jsonify(response), 200
+
+@app.route('/transactions/new', methods=['POST'])
 def new_transactions():
     '''
         Takes a JSON transaction request and adds it to the BlockChain.
