@@ -8,7 +8,7 @@ from time import time
 import json
 import hashlib
 
-class Blockchain(object):
+class Blockchain:
     '''
         Blockchain implementation
         Responsible for managing the chain and will store transactions and have some helper

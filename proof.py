@@ -4,7 +4,7 @@
 
 import hashlib
 
-class Proof(object):
+class Proof:
     '''
         Proof of work implementation.
     '''
