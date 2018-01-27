@@ -17,11 +17,14 @@ class Blockchain(object):
         '''
             Creates an Empty Blockchain instance.
         '''
+
+        # Create an empty chain and no transactions on start.
         self.chain = []
         self.current_transactions = []
 
         # Create the Genesis Block.
         self.new_block(previous_hash=1, proof=100)
+
 
     def new_block(self, proof, previous_hash=None):
         '''
@@ -50,6 +53,7 @@ class Blockchain(object):
 
         return block
 
+
     def new_transaction(self, sender, recipient, amount):
         '''
             Creates a new transaction to go to the next mined block.
@@ -69,12 +73,14 @@ class Blockchain(object):
 
         return self.last_block["index"] + 1
 
+
     @staticmethod
     def hash(block):
         '''
             Hashes a Block.
         '''
         pass
+
 
     @property
     def last_block(self):
