@@ -7,6 +7,10 @@
 from time import time
 import json
 import hashlib
+from urllib.parse import urlparse
+import requests
+from proof import Proof
+
 
 class Blockchain:
     '''
@@ -24,6 +28,9 @@ class Blockchain:
         # Create an empty chain and no transactions on start.
         self.chain = []
         self.current_transactions = []
+
+        # Create a set of nodes in the network.
+        self.nodes = set()
 
         # Create the Genesis Block.
         self.new_block(proof=100, previous_hash=1)
@@ -105,3 +112,83 @@ class Blockchain:
         '''
 
         return self.chain[-1]
+
+
+    def register_node(self, address):
+        '''
+            Add a new node to the set of nodes
+
+            :param address: <str> HTTP Address of the node
+            :return None
+        '''
+
+        parsed_url = urlparse(address)
+        self.nodes.add(parsed_url)
+
+
+    def valid_chain(self, chain):
+        '''
+            Determine if a given blockchain is valid by looping through
+            each block and verifying both hash and the proof
+
+            :param chain: <list> A blockchain to verify
+            :return: <bool> True if valid, else False
+        '''
+
+        last_block = chain[0]
+        current_index = 1
+
+        while current_index < len(chain):
+            block = chain[current_index]
+            print(f'{last_block}')
+            print(f'{block}')
+            print('\n-------\n')
+
+            # Check of the current block is correct
+            if block['previous_hash'] != self.hash(last_block):
+                return False
+
+            # Check that the proof of work is correct
+            # by validating the last blocks proof against the current blocks proof
+            if not Proof.valid_proof(last_block['proof'], block['proof']):
+                return False
+
+        # If all above checks pass, then the block is valid.
+        return True
+
+    def resolve_conflicts(self):
+        '''
+            Consensus Algorithm, resolves conflicts by replacing our chain with the longest one
+            in the network.
+
+            Loop through each of the neighboring nodes.
+            If a valid chain is found whose length is greater than ours then replace ours
+
+            return: <bool> True if the chain was replaced, else False
+        '''
+
+        neighbours = self.nodes
+        new_chain = None
+
+        # Store the current length of our chain to compare others.
+        max_length = len(self.chain)
+
+        # For each registered nodes, check if thier chains are longer and valid.
+        for node in neighbours:
+            response = requests.get(f'http://{node}/chain')
+
+            if response.status_code == 200:
+                length = response.json()['length']
+                chain = response.json()['chain']
+
+                # Check if the lenght is longer and it is valid, if so then store.
+                if (length > max_length and self.valid_chain(chain)):
+                    max_length = length
+                    new_chain = chain
+
+        # If we found a new valid chain longer than ours then store it.
+        if new_chain:
+            self.chain = new_chain
+            return True
+
+        return False
