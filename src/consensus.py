@@ -41,6 +41,9 @@ class Consensus:
             if not Proof.valid_proof(last_block['proof'], block['proof']):
                 return False
 
+            last_block = block
+            current_index += 1
+
         # If all above checks pass, then the block is valid.
         return True
 
