@@ -45,11 +45,39 @@ block =
 #### Genesis Block
 Due to the chaining of these blocks, we need a way to seed the very start of the Blockchain. This is achieved using the Genesis block. This block has no predecessors and is mined at initialization.
 
+## Proof Of Work
+A Proof of Work (Pow) algorithm is *how blocks are created (mined)* on the blockchain. *The goal of PoW is to discover a number which solves a problem.*
 
+The number must be computationally difficult to find but easy to verify by anyone on the network.
 
+### Example
+Given `x` and `y`, find the hash which when `x` and `y` are multiplied, the result must end in `0`.
 
+`hash(x * y) = ac23dc...0`
 
+To simplify this example, we will fix `x=5` and just examine the `y` value.
 
+This algorithm may look like this:
 
+```python
+from hashlib import sha256
 
+x = 5
+y = 0 #  To start with
 
+# While the end of the hash of the
+# multiplication of x and y does not equal 0,
+# keep incrementing y
+while sha256(f'{x * y}'.encode()).hexdigest()[-1] != "0":
+    y +=1
+
+print(f'The solution is y = {y}')
+```
+
+The solution for this specific example is `y = 21`. This is because the produced has of `hash(5 * 21) = 1253e937...0` which ends in zero and therefore meets our requirement.
+
+The PoW algorithm used in Bitcoin is not too different to this example. *Miners race to solve this kind of problem in order to create a new block. When they eventually do solve the problem, they are awarded coins in the form of a transaction*.
+
+**In general, the difficulty is determined by the number of characters searched for in the string.**. We can adjust the difficulty by modifying the number of leading zeroes required. Adding additional zeros makes big differences in the time required to compute the hash.
+
+The network is then easily able to verify the solution by running the two numbers in the hash algorithm and verifying the 0 requirement in the produced hash.
