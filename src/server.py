@@ -89,7 +89,7 @@ def chain():
 
     return jsonify(response), 200
 
-@app.route('/node/register', methods=['GET'])
+@app.route('/node/register', methods=['POST'])
 def register():
     '''
         Accepts a list of new nodes in the form of URLs and registers them with the current node.
@@ -117,7 +117,7 @@ def resolve():
         Runs the Consensus algorithm to resolve any conflicts
         and ensure a node has the correct chain.
     '''
-    replaced = Consensus.resolve_conflicts(nodes, blockchain)
+    replaced = Consensus.resolve_conflicts(nodes.nodes, blockchain)
 
     if replaced:
         response = {
