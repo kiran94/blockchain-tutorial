@@ -8,6 +8,7 @@ from flask import Flask, jsonify, request
 
 from blockchain import Blockchain
 from proof import Proof
+from hash import Hash
 
 # Initialise a Node
 app = Flask(__name__)
@@ -42,7 +43,7 @@ def mine():
     )
 
     # Forge the new block by adding it to the blockchain
-    previous_hash = blockchain.hash(previous_block)
+    previous_hash = Hash.hash(previous_block)
     new_block = blockchain.new_block(new_proof, previous_hash)
 
     # Send the response back with the block details.

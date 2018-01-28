@@ -10,6 +10,7 @@ import hashlib
 from urllib.parse import urlparse
 import requests
 from proof import Proof
+from hash import Hash
 
 
 class Blockchain:
@@ -53,7 +54,7 @@ class Blockchain:
             'transactions' : self.current_transactions,
             'proof' : proof,
             # New block stores the has of the previous block.
-            'previous_hash' : previous_hash or self.hash(self.chain[-1])
+            'previous_hash' : previous_hash or Hash.hash(self.chain[-1])
         }
 
         # Reset the current list of transactions
@@ -86,24 +87,6 @@ class Blockchain:
             })
 
         return self.last_block["index"] + 1
-
-
-    @staticmethod
-    def hash(block):
-        '''
-            Creates a SHA-256 hash of the block
-
-            :param block: <dict> block
-            :return <str> The hash of the block.
-        '''
-
-        # Dictionary is ordered so that hashes are not inconsistent.
-        block_string = json.dumps(block, sort_keys=True).encode()
-
-        # Hash the string and produce a hexadecimal digest
-        # so that it can be shared safely.
-        return hashlib.sha256(block_string).hexdigest()
-
 
     @property
     def last_block(self):
@@ -145,7 +128,7 @@ class Blockchain:
             print('\n-------\n')
 
             # Check of the current block is correct
-            if block['previous_hash'] != self.hash(last_block):
+            if block['previous_hash'] != Hash.hash(last_block):
                 return False
 
             # Check that the proof of work is correct
