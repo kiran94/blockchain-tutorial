@@ -33,7 +33,7 @@ def mine():
     new_proof = proof.proof_of_work(previous_proof)
 
     # Because the user is mining a block, we want to reward them with a block,
-    # so we create a transaction on the blockchain which will be added to the blockchain
+    # so we create a transaction which will be added to the blockchain
     # in the new_block method below.
     blockchain.new_transaction(
         sender = "0",
