@@ -1,5 +1,5 @@
 '''
-    This module provides a Simple BlockChain implementation for learning.
+    This module provides a Simple Blockchain implementation for learning.
 
     Block Structure: https://gist.github.com/dvf/79633bf97e2a831f066f699d41c2b9d5#file-blockchain-py
 '''
@@ -11,7 +11,8 @@ import hashlib
 class Blockchain:
     '''
         Blockchain implementation
-        Responsible for managing the chain and will store transactions and have some helper
+        Responsible for managing the chain
+        and will store transactions and have some helper
         functions for interacting with the chain.
     '''
 
@@ -25,7 +26,7 @@ class Blockchain:
         self.current_transactions = []
 
         # Create the Genesis Block.
-        self.new_block(previous_hash=1, proof=100)
+        self.new_block(proof=100, previous_hash=1)
 
 
     def new_block(self, proof, previous_hash=None):
@@ -44,10 +45,12 @@ class Blockchain:
             'timestamp' : time(),
             'transactions' : self.current_transactions,
             'proof' : proof,
+             # New block stores the has of the previous block.
             'previous_hash' : previous_hash or self.hash(self.chain[-1])
         }
 
-        # Reset the current list of transactions as they have been mined into the above block.
+        # Reset the current list of transactions
+        # as they have been mined into the above block.
         self.current_transactions = []
 
         # Add the block to the chain.
@@ -66,6 +69,8 @@ class Blockchain:
             :return: <int> The index of the block that will hold this transaction.
         '''
 
+        # Add the new transaction to the current transactions,
+        # to be mined in the next block.
         self.current_transactions.append(
             {
                 'sender' : sender,
@@ -85,10 +90,11 @@ class Blockchain:
             :return <str> The hash of the block.
         '''
 
-        # Dictionary is ordered so that hashses are not inconsistent.
+        # Dictionary is ordered so that hashes are not inconsistent.
         block_string = json.dumps(block, sort_keys=True).encode()
 
-        # Hash the string and produce a hexadecimal digest so that it can be shared safely.
+        # Hash the string and produce a hexadecimal digest
+        # so that it can be shared safely.
         return hashlib.sha256(block_string).hexdigest()
 
 

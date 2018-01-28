@@ -1,4 +1,4 @@
-# blockchain-tutorial ⛓ 
+# blockchain-tutorial ⛓
 [![Build Status](https://travis-ci.org/kiran94/blockchain-tutorial.svg?branch=master)](https://travis-ci.org/kiran94/blockchain-tutorial) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/11b3a58b3433471ab8925c8131da9aed)](https://www.codacy.com/app/kiran94/blockchain-tutorial?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=kiran94/blockchain-tutorial&amp;utm_campaign=Badge_Grade)
 
 Understanding the basic concepts of Blockchain and implementing a basic solution using a [tutorial](https://hackernoon.com/learn-blockchains-by-building-one-117428612f46).
@@ -22,7 +22,7 @@ A Blockchain is an **immutable, sequential chain of records called blocks**. The
 Stored internally to the Blockchain, this represents a list of *Blocks*. The chain is made immutable by linking together blocks via the previous' block hash all the way back to the *genesis block*.
 
 #### Block
-These are stored within the chain as immutable units. Each blocks links to the previous block via hashes.
+These are stored within the chain as immutable units. Each blocks links to the previous block via hashes. Blocks contain a collection of transactions to be mined at this particular time.
 
 A Block has the following attributes:
 - Index
@@ -86,8 +86,8 @@ print(f'The solution is y = {y}')
 
 The solution for this specific example is `y = 21`. This is because the produced has of `hash(5 * 21) = 1253e937...0` which ends in zero and therefore meets our requirement.
 
-The PoW algorithm used in Bitcoin is not too different to this example. *Miners race to solve this kind of problem in order to create a new block. When they eventually do solve the problem, they are awarded coins in the form of a transaction*.
+*The PoW algorithm used in Bitcoin is not too different to this example. Miners race to solve this kind of problem in order to create a new block. When they eventually do solve the problem, they are awarded coins in the form of a transaction. This transaction is added to the currently mined block just before it is added to the chain.*
 
-**In general, the difficulty is determined by the number of characters searched for in the string.**. We can adjust the difficulty by modifying the number of leading zeroes required. Adding additional zeros makes big differences in the time required to compute the hash.
+**In general, the difficulty is determined by the number of characters searched for in the string.** We can adjust the difficulty by modifying the number of leading zeroes required. Adding additional zeros makes big differences in the time required to compute the hash.
 
 The network is then easily able to verify the solution by running the two numbers in the hash algorithm and verifying the 0 requirement in the produced hash.
