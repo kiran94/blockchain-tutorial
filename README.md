@@ -3,6 +3,15 @@
 
 Understanding the basic concepts of Blockchain and implementing a basic solution using a [tutorial](https://hackernoon.com/learn-blockchains-by-building-one-117428612f46).
 
+- [blockchain-tutorial ⛓](#blockchain-tutorial-%E2%9B%93)
+    - [Concepts](#concepts)
+        - [Blockchain](#blockchain)
+            - [Chain](#chain)
+            - [Block](#block)
+            - [Genesis Block](#genesis-block)
+        - [Proof Of Work](#proof-of-work)
+            - [Example](#example)
+
 ## Concepts
 
 ### Blockchain
@@ -46,12 +55,12 @@ block =
 #### Genesis Block
 Due to the chaining of these blocks, we need a way to seed the very start of the Blockchain. This is achieved using the Genesis block. This block has no predecessors and is mined at initialization.
 
-## Proof Of Work
+### Proof Of Work
 A Proof of Work (Pow) algorithm is *how blocks are created (mined)* on the blockchain. *The goal of PoW is to discover a number which solves a problem.*
 
 The number must be computationally difficult to find but easy to verify by anyone on the network.
 
-### Example
+#### Example
 Given `x` and `y`, find the hash which when `x` and `y` are multiplied, the result must end in `0`.
 
 `hash(x * y) = ac23dc...0`
