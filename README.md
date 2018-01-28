@@ -4,6 +4,7 @@
 Understanding the basic concepts of Blockchain and implementing a basic solution using a [tutorial](https://hackernoon.com/learn-blockchains-by-building-one-117428612f46).
 
 - [blockchain-tutorial ⛓](#blockchain-tutorial-%E2%9B%93)
+    - [Setup](#setup)
     - [Concepts](#concepts)
         - [Blockchain](#blockchain)
             - [Chain](#chain)
@@ -12,6 +13,12 @@ Understanding the basic concepts of Blockchain and implementing a basic solution
         - [Proof Of Work](#proof-of-work)
             - [Example](#example)
         - [Consensus](#consensus)
+
+## Setup
+
+1. `clone` repository
+2. `pip install -r requirements.txt`
+3. `python3 src/server.py`
 
 ## Concepts
 
