@@ -36,9 +36,9 @@ def mine():
     # so we create a transaction which will be added to the blockchain
     # in the new_block method below.
     blockchain.new_transaction(
-        sender = "0",
-        recipient = node_id,
-        amount = 1
+        sender="0",
+        recipient=node_id,
+        amount=1
     )
 
     # Forge the new block by adding it to the blockchain
@@ -72,7 +72,7 @@ def new_transactions():
     index = blockchain.new_transaction(values['sender'], values['recipient'], values['amount'])
 
     # Return a json message.
-    response = { 'message' : f'Transaction will be added to Block {index}'}
+    response = {'message' : f'Transaction will be added to Block {index}'}
     return jsonify(response), 201
 
 

@@ -45,7 +45,7 @@ class Blockchain:
             'timestamp' : time(),
             'transactions' : self.current_transactions,
             'proof' : proof,
-             # New block stores the has of the previous block.
+            # New block stores the has of the previous block.
             'previous_hash' : previous_hash or self.hash(self.chain[-1])
         }
 
