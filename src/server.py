@@ -133,4 +133,13 @@ def resolve():
     return jsonify(response), 200
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    '''
+        Main Entry Point.
+    '''
+    from argparse import ArgumentParser
+
+    parser = ArgumentParser()
+    parser.add_argument('-p', '--port', type=int, default=5000, help='port to use')
+    args = parser.parse_args()
+
+    app.run(host='0.0.0.0', port=args.port)
