@@ -11,6 +11,7 @@ Understanding the basic concepts of Blockchain and implementing a basic solution
             - [Genesis Block](#genesis-block)
         - [Proof Of Work](#proof-of-work)
             - [Example](#example)
+        - [Consensus](#consensus)
 
 ## Concepts
 
@@ -91,3 +92,8 @@ The solution for this specific example is `y = 21`. This is because the produced
 **In general, the difficulty is determined by the number of characters searched for in the string.** We can adjust the difficulty by modifying the number of leading zeroes required. Adding additional zeros makes big differences in the time required to compute the hash.
 
 The network is then easily able to verify the solution by running the two numbers in the hash algorithm and verifying the 0 requirement in the produced hash.
+
+### Consensus
+The Consensus Algorithm ensures that we have the same chain in a decentralized system. Blockchain is decentralised and we therefore each node has its own copy of the chain.
+
+**A conflict is when one node has a different chain to another node. To resolve this, we'll make the rule that the longest valid chain is authoritative.** Using this we can ensure the nodes reach a *Consensus* on the chain in the network.
