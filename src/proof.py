@@ -37,7 +37,6 @@ class Proof:
             :return: <bool>: True if valid, else False.
         '''
 
-        #guess = f'{last_proof}{proof}'.encode()
         guess = f'{last_proof}{proof}'.encode()
         guess_hash = hashlib.sha256(guess).hexdigest()
 
