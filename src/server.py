@@ -7,20 +7,19 @@ from uuid import uuid4
 from flask import Flask, jsonify, request
 
 from blockchain import Blockchain
-from proof import Proof
+from consensus import Consensus
 from hash import Hash
+from nodes import Nodes
+from proof import Proof
 
-# Initialise a Node
+# Initialise a Node and generate a globally unique address
 app = Flask(__name__)
-
-# Generate a globally unique address
 node_id = str(uuid4()).replace('-', '')
 
-# Initialise the blockchain
 blockchain = Blockchain()
-
-# Initialise the proofing algorithm
 proof = Proof()
+nodes = Nodes()
+consensus = Consensus()
 
 @app.route('/mine', methods=['GET'])
 def mine():
@@ -97,16 +96,17 @@ def register():
     '''
 
     values = request.get_json()
-    nodes = values.get('nodes')
-    if nodes is None:
+    received_nodes = values.get('nodes')
+
+    if received_nodes is None:
         return "Error: please supply a valid list of nodes", 400
 
-    for node in nodes:
-        blockchain.register_node(node)
+    for node in received_nodes:
+        nodes.register_node(node)
 
     response = {
         'message' : 'New Nodes have been added',
-        'total_nodes' : list(blockchain.nodes)
+        'total_nodes' : list(nodes.nodes)
     }
 
     return jsonify(response), 201
@@ -117,7 +117,7 @@ def resolve():
         Runs the Consensus algorithm to resolve any conflicts
         and ensure a node has the correct chain.
     '''
-    replaced = blockchain.resolve_conflicts()
+    replaced = Consensus.resolve_conflicts(nodes, blockchain)
 
     if replaced:
         response = {
